@@ -1,6 +1,16 @@
 PHP-Premailer
 =============
 
+### What is the library useful for?
+
+This library is useful for converting your email templates (which use `style` blocks for defining the UI) into sendable markup (with inline styles inserted in the right places, based on those `style` blocks).
+
+### What does this library do?
+
+It goes through any `style` blocks, and searches your markup/html for those elements. It then inserts those styles inline, to make sure it's renderable by the highest number of email clients.
+
+### The backstory
+
 While developing some emails for my recent project, [Podium](http://hellopodium.com/), I stumbled on [alexdunae](https://github.com/alexdunae)'s wonderful tool [Premailer](http://premailer.dialect.ca/). This tool allows you copy/paste markup with `style` tags, and have inline-styled code returned back.
 
 I looked around for some libraries to do that programatically in PHP, finding two. [CssToInlineStyles](https://github.com/tijsverkoyen/CssToInlineStyles) and [InlineStyle](https://github.com/christiaan/InlineStyle). Neither of these worked for my situation, so I decided to provide a PHP proxy/wrapper for [alexdunae](https://github.com/alexdunae/premailer)'s open source version (accessible here: <https://github.com/alexdunae/premailer>).
