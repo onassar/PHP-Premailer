@@ -28,39 +28,39 @@ The library works by generating `bash` code to call the `ruby` script. This scri
 **Before:**
 
 ``` html
-	<style>
-		body {
-			padding: 0px;
-			color: orange;
-		}
-		.Oliver {
-			border: 1px solid red;
-		}
-		body .Oliver {
-			font-size: 14px;
-			line-height: 20px;
-		}
-	</style>
-    <body><div class="Oliver">Nassar</div></body>
+<style>
+	body {
+		padding: 0px;
+		color: orange;
+	}
+	.Oliver {
+		border: 1px solid red;
+	}
+	body .Oliver {
+		font-size: 14px;
+		line-height: 20px;
+	}
+</style>
+   <body><div class="Oliver">Nassar</div></body>
 ```
 
 **After (raw):**
 
 ``` html
-	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"><html><head></head><body style="padding: 0px; color: orange;"><div style="border: 1px solid red; line-height: 20px; font-size: 14px;">Nassar</div></body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"><html><head></head><body style="padding: 0px; color: orange;"><div style="border: 1px solid red; line-height: 20px; font-size: 14px;">Nassar</div></body></html>
 ```
 
 **After (formatted):**
 
 ``` html
-	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-	<html>
-	<head>
-	</head>
-		<body style="padding: 0px; color: orange;">
-			<div style="border: 1px solid red; line-height: 20px; font-size: 14px;">Nassar</div>
-		</body>
-	</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+</head>
+	<body style="padding: 0px; color: orange;">
+		<div style="border: 1px solid red; line-height: 20px; font-size: 14px;">Nassar</div>
+	</body>
+</html>
 ```
 
 See the <https://github.com/onassar/PHP-Premailer/blob/master/Premailer.class.php#L22> for the options the PHP library supports (almost all of them).
