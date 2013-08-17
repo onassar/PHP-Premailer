@@ -23,7 +23,7 @@ I hope you find it useful.
 ```
 
 That's it.  
-The library works by generating `bash` code to call the `ruby` script. This script then uses the open source `premailer` gem to make the conversions. Here is an example of before/after:
+The library works by generating `bash` code to call the `ruby` script. That script then uses the open source `premailer` gem to make the conversions. Here is an example of before/after:
 
 **Before:**
 
@@ -63,6 +63,6 @@ The library works by generating `bash` code to call the `ruby` script. This scri
 </html>
 ```
 
-See the <https://github.com/onassar/PHP-Premailer/blob/master/Premailer.class.php#L22> for the options the PHP library supports (almost all of them).
+See <https://github.com/onassar/PHP-Premailer/blob/master/Premailer.class.php#L22> for the options the PHP library supports (almost all of them).
 
 If you have any feedback, please reach out: <onassar@gmail.com>
