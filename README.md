@@ -1,6 +1,20 @@
 PHP-Premailer
 =============
 
+### Quick Example
+
+``` php
+<?php
+
+    // Source
+    require_once APP . '/vendors/PHP-Premailer/Premailer.class.php';
+
+    // Pass in the html markup (which will have style blocks in it)
+    $premailer = (new Premailer($body));    
+    $body = $premailer->getConvertedHtml();
+    
+```
+
 ### What is the library useful for?
 
 This library is useful for converting your email templates (which use `style` blocks for defining the UI) into sendable markup (with inline styles inserted in the right places, based on those `style` blocks).
@@ -18,7 +32,7 @@ I looked around for some libraries to do that programatically in PHP, finding tw
 Here it is.  
 I hope you find it useful.
 
-### Example
+### Example Walkthrough
 
 ``` php
 <?php
