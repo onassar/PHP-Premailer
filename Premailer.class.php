@@ -14,6 +14,7 @@
      *          Ensure you do *not* install the hpricot gem. See if that was in
      *          fact a dependency. That may be the cause of the inconsistancy
      *          with the remove_classes and remove_ids arguments.
+     *          Okay; I did this. No luck :(
      * @note    If ruby conversion file is named premailer.rb, it'll conflict
      *          with the library
      * @author  Oliver Nassar <onassar@gmail.com>
