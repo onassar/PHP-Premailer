@@ -33,9 +33,9 @@
             'input_encoding' => 'ASCII-8BIT',
             'preserve_reset' => true,
             'preserve_styles' => false,
-            'remove_classes' => false,// Some servers bugged outwhen this was on
+            'remove_classes' => true,// Some servers bugged outwhen this was on
             'remove_comments' => true,
-            'remove_ids' => false,// Some servers bugged outwhen this was on
+            'remove_ids' => true,// Some servers bugged outwhen this was on
             'remove_scripts' => true,
             'replace_html_entities' => false
         );

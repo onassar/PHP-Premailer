@@ -90,3 +90,12 @@ The library works by generating `bash` code to call the `ruby` script. That scri
 See <https://github.com/onassar/PHP-Premailer/blob/master/Premailer.class.php#L22> for the options the PHP library supports (almost all of them).
 
 If you have any feedback, please reach out: <onassar@gmail.com>
+
+#### Headups
+I noticed a strange bug. While using the open source ruby gem on a VM on my OSX machine, everything went smoothly with the `remove_classes` and `remove_ids` options. They worked as expected (eg. the styles would be applied, and the classes or ids would be removed after the styles had been applied).
+
+On a different server, however, there was some inconsitant behaviour. Specifically, if these options were set to `true`, some styles would or wouldn't get applied.
+
+I'm not sure if the ids/classes were getting removed before the conversion was being done, or what. There was a gem I thought was a prerequisite, called `hpricot`, that I installed on the latter server, that the former didn't have.
+
+I'm not sure if that's related, but a heads up if you notice that behaviour.
