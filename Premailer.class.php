@@ -10,6 +10,10 @@
     /**
      * Premailer
      * 
+     * @todo    Note to self: test this again after you rebuild the dev server.
+     *          Ensure you do *not* install the hpricot gem. See if that was in
+     *          fact a dependency. That may be the cause of the inconsistancy
+     *          with the remove_classes and remove_ids arguments.
      * @note    If ruby conversion file is named premailer.rb, it'll conflict
      *          with the library
      * @author  Oliver Nassar <onassar@gmail.com>
