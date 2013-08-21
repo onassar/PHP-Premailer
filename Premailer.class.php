@@ -34,8 +34,8 @@
         protected $_arguments = array(
             'css_to_attributes' => true,
             'include_link_tags' => true,
-            'include_style_tags' => true,
-            'input_encoding' => 'ASCII-8BIT',
+            'include_style_tags' => false,
+            'input_encoding' => 'UTF8',
             'preserve_reset' => true,
             'preserve_styles' => false,
             'remove_classes' => false,// Some servers bugged outwhen this was on
@@ -139,6 +139,7 @@
             $output = array();
             $returnVar = 0;
             $command = ($scriptPath) . ' ' . $this->_getArgumentString();
+el($command);
             $response = exec($command, $output, $returnVar);
             if ($returnVar === 1) {
                 throw new Exception('Premailer or getopt gems not installed');
