@@ -139,7 +139,6 @@
             $output = array();
             $returnVar = 0;
             $command = ($scriptPath) . ' ' . $this->_getArgumentString();
-el($command);
             $response = exec($command, $output, $returnVar);
             if ($returnVar === 1) {
                 throw new Exception('Premailer or getopt gems not installed');
