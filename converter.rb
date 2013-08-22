@@ -4,7 +4,6 @@ begin
   gem 'premailer'
   require 'premailer'
   require 'getopt/long'
-  # require 'shellwords'
 
   opt = Getopt::Long.getopts(
     ['--markup', Getopt::REQUIRED],
@@ -22,7 +21,6 @@ begin
     ['--with_html_string', Getopt::BOOLEAN]
   )
   premailer = Premailer.new(
-      # Shellwords.escape(opt['markup']),
       opt['markup'].dup,
       :css_to_attributes => opt['css_to_attributes'],
       :include_link_tags => opt['include_link_tags'],
