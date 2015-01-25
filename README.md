@@ -1,6 +1,13 @@
 PHP-Premailer
 =============
 
+### Install Heads Up!
+I just rebuilt an EC2, and in so doing, realized that the latest version of premailer doesn't work with my library (not sure why). To get around this, I uninstalled the premailer gem, and reinstalled, using this:
+
+    sudo gem install premailer -v 1.7.3
+
+That did it!
+
 ### Quick Example
 
 ``` php
