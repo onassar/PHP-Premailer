@@ -23,6 +23,7 @@
      */
     class Premailer
     {
+        public $base_url;
         /**
          * _arguments
          * 
@@ -36,6 +37,7 @@
             'include_link_tags' => true,
             'include_style_tags' => false,
             'input_encoding' => 'ASCII-8BIT',
+            'base_url' => null,
             'preserve_reset' => true,
             'preserve_styles' => false,
             'remove_classes' => false,// Some servers bugged outwhen this was on
@@ -99,6 +101,7 @@
             $str .= '--markup "' . ($escapedMarkup) . '"';
 
             // Loop over arguments; if boolean and true, set
+            $this->_arguments['base_url'] = $this->base_url;
             foreach ($this->_arguments as $name => $value) {
                 if (is_bool($value)) {
                     if ($value === true) {
@@ -139,6 +142,7 @@
             $output = array();
             $returnVar = 0;
             $command = ($scriptPath) . ' ' . $this->_getArgumentString();
+            Yii::log($command);
             $response = exec($command, $output, $returnVar);
             if ($returnVar === 1) {
                 throw new Exception('Premailer or getopt gems not installed');
