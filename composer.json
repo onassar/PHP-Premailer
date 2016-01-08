@@ -1,0 +1,25 @@
+{
+    "name": "onassar/php-premailer",
+    "homepage": "https://github.com/onassar/PHP-Premailer",
+    "description": "A PHP proxy/wrapper for @alexdunae premailer ruby library.",
+    "keywords": ["premailer","php"],
+    "type": "library",
+    "license": [
+        "Apache-2.0",
+        "LGPL-2.1",
+        "GPL-3.0+",
+        "MIT"
+    ],
+    "authors": [
+        {
+            "name": "Oliver Nassar",
+            "homepage": "http://olivernassar.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.5"
+    },
+    "autoload": {
+        "files": ["Premailer.class.php"]
+    }
+}
