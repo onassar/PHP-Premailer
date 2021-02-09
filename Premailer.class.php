@@ -1,22 +1,8 @@
 <?php
 
-    // Ensure ruby script is executable
-    if (!is_executable(dirname(__FILE__) . '/converter.rb')) {
-        throw new Exception(
-            'converter.rb must be executable (eg. sudo chmod 0755 converter.rb)'
-        );
-    }
-
     /**
      * Premailer
      * 
-     * @todo    Note to self: test this again after you rebuild the dev server.
-     *          Ensure you do *not* install the hpricot gem. See if that was in
-     *          fact a dependency. That may be the cause of the inconsistancy
-     *          with the remove_classes and remove_ids arguments.
-     *          Okay; I did this. No luck :(
-     * @note    If ruby conversion file is named premailer.rb, it'll conflict
-     *          with the library
      * @author  Oliver Nassar <onassar@gmail.com>
      * @see     https://github.com/alexdunae/premailer/
      * @see     http://premailer.dialect.ca/
@@ -24,125 +10,146 @@
     class Premailer
     {
         /**
-         * _arguments
-         * 
-         * @note   Not all ruby options are supported (yet)
-         * @see    https://github.com/alexdunae/premailer/blob/master/lib/premailer/premailer.rb#L164
-         * @var    array
-         * @access protected
-         */
-        protected $_arguments = array(
-            'css_to_attributes' => true,
-            'include_link_tags' => true,
-            'include_style_tags' => false,
-            'input_encoding' => 'ASCII-8BIT',
-            'preserve_reset' => true,
-            'preserve_styles' => false,
-            'remove_classes' => false,// Some servers bugged outwhen this was on
-            'remove_comments' => true,
-            'remove_ids' => false,// Some servers bugged outwhen this was on
-            'remove_scripts' => true,
-            'replace_html_entities' => false
-        );
-
-        /**
          * _markup
          * 
-         * @var    string
-         * @access protected
+         * @access  protected
+         * @var     null|string (default: null)
          */
-        protected $_markup;
+        protected $_markup = null;
 
         /**
-         * _notSupported
+         * _options
          * 
-         * Separate array to remind me of the outstanding arguments to support
-         * 
-         * @var    array
-         * @access protected
+         * @note    Some servers bugged outwhen the following were turned on:
+         *          - remove_classes
+         *          - remove_ids
+         * @see     https://github.com/premailer/premailer/blob/master/lib/premailer/premailer.rb
+         * @access  protected
+         * @var     array
          */
-        // protected $_notSupported = array(
-        //     'base_url' => nil,
-        //     'css' => [],
-        //     'css_string' => nil,
-        //     'debug' => false,
-        //     'line_length' => 65,
-        //     'link_query_string' => nil,
-        //     'verbose' => false
-        // );
+        protected $_options = array(
+            'css_to_attributes'         => true,
+            'include_link_tags'         => true,
+            'include_style_tags'        => true,
+            'input_encoding'            => 'ASCII-8BIT',
+            'preserve_reset'            => true,
+            'preserve_styles'           => true,
+            'remove_classes'            => false,
+            'remove_comments'           => false,
+            'remove_ids'                => false,
+            'remove_scripts'            => true,
+            'replace_html_entities'     => false
+        );
 
         /**
          * __construct
          * 
-         * @access public
-         * @param  string $markup
-         * @return void
+         * @access  public
+         * @return  void
          */
-        public function __construct($markup)
+        public function __construct()
         {
-            $this->_markup = $markup;
-            $this->_arguments['with_html_string'] = true;
         }
 
         /**
-         * _getArgumentString
+         * _getCLIOptions
          * 
-         * @see    http://rubyforge.org/docman/view.php/735/281/README.html
-         * @access protected
-         * @return string
+         * @access  protected
+         * @return  array
          */
-        protected function _getArgumentString()
+        protected function _getCLIOptions(): array
         {
-            // Set up the argument string, and escape the markup
-            $str = '';
-            $escapedMarkup = str_replace('"', '\"', $this->_markup);
-            $str .= '--markup "' . ($escapedMarkup) . '"';
-
-            // Loop over arguments; if boolean and true, set
-            foreach ($this->_arguments as $name => $value) {
-                if (is_bool($value)) {
-                    if ($value === true) {
-                        $str .= ' --' . ($name);
-                    }
-                } else {
-                    $str .= ' --' . ($name) . ' ' . ($value);
+            $cliOptions = array();
+            $escapedMarkup = $this->_getEscapedMarkup();
+            $this->_options['markup'] = '"' . ($escapedMarkup) . '"';
+            $this->_options['with_html_string'] = true;
+            $options = $this->_options;
+            foreach ($options as $key => $value) {
+                if ($value === false) {
+                    continue;
                 }
+                if ($value === true) {
+                    $cliOption = '--' . ($key);
+                    array_push($cliOptions, $cliOption);
+                    continue;
+                }
+                $cliOption = '--' . ($key) . ' ' . ($value);;
+                array_push($cliOptions, $cliOption);
             }
-
-            // Return for exec
-            return $str;
+            return $cliOptions;
         }
 
         /**
-         * setArgument
+         * _getCLIOptionsString
          * 
-         * @see    https://github.com/alexdunae/premailer/blob/master/lib/premailer/premailer.rb#L164
-         * @access public
-         * @param  string $name
-         * @param  string $value
-         * @return void
+         * @see     http://rubyforge.org/docman/view.php/735/281/README.html
+         * @access  protected
+         * @return  string
          */
-        public function setArgument($name, $value)
+        protected function _getCLIOptionsString()
         {
-            $this->_arguments[$name] = $value;
+            $options = $this->_getCLIOptions();
+            $options = implode(' ', $options);
+            return $options;
         }
 
         /**
-         * getConvertedHtml
+         * _getEscapedMarkup
          * 
-         * @access public
-         * @return string
+         * @access  protected
+         * @return  string
          */
-        public function getConvertedHtml()
+        protected function _getEscapedMarkup(): string
+        {
+            $markup = $this->_markup;
+            $escapedMarkup = str_replace('"', '\"', $markup);
+            return $escapedMarkup;
+        }
+
+        /**
+         * getInlinedMarkup
+         * 
+         * @access  public
+         * @return  string
+         */
+        public function getInlinedMarkup()
         {
             $scriptPath = dirname(__FILE__) . '/converter.rb';
             $output = array();
             $returnVar = 0;
-            $command = ($scriptPath) . ' ' . $this->_getArgumentString();
+            $command = ($scriptPath) . ' ' . $this->_getCLIOptionsString();
             $response = exec($command, $output, $returnVar);
             if ($returnVar === 1) {
-                throw new Exception('Premailer or getopt gems not installed');
+                $msg = 'Error';
+                throw new Exception($msg);
             }
-            return implode('', $output);
+            $response = implode("\n", $output);
+            return $response;
+        }
+
+        /**
+         * setMarkup
+         * 
+         * @access  public
+         * @param   string $markup
+         * @return  void
+         */
+        public function setMarkup(string $markup): void
+        {
+            $this->_markup = $markup;
+        }
+
+        /**
+         * setOption
+         * 
+         * @see     https://github.com/alexdunae/premailer/blob/master/lib/premailer/premailer.rb#L164
+         * @access  public
+         * @param   string $key
+         * @param   mixed $value
+         * @return  void
+         */
+        public function setOption(string $key, $value): void
+        {
+            $this->_options[$key] = $value;
         }
     }
