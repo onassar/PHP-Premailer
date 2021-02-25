@@ -73,7 +73,7 @@
                     array_push($cliOptions, $cliOption);
                     continue;
                 }
-                $cliOption = '--' . ($key) . ' ' . ($value);;
+                $cliOption = '--' . ($key) . ' ' . ($value);
                 array_push($cliOptions, $cliOption);
             }
             return $cliOptions;
