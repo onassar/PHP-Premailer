@@ -17,7 +17,7 @@ That did it!
     require_once APP . '/vendors/PHP-Premailer/Premailer.class.php';
 
     // Pass in the html markup (which will have style blocks in it)
-    $premailer = (new Premailer($body));    
+    $premailer = new Premailer($body);
     $body = $premailer->getConvertedHtml();
     
 ```
@@ -48,7 +48,7 @@ I hope you find it useful.
     require_once APP . '/vendors/PHP-Premailer/Premailer.class.php';
 
     // Pass in the html markup (which will have style blocks in it)
-    $premailer = (new Premailer($body));    
+    $premailer = new Premailer($body);
     $body = $premailer->getConvertedHtml();
     
 ```
@@ -98,7 +98,7 @@ See <https://github.com/onassar/PHP-Premailer/blob/master/Premailer.class.php#L2
 
 If you have any feedback, please reach out: <onassar@gmail.com>
 
-#### Headups
+#### Heads up
 I noticed a strange bug. While using the open source ruby gem on a VM on my OSX machine, everything went smoothly with the `remove_classes` and `remove_ids` options. They worked as expected (eg. the styles would be applied, and the classes or ids would be removed after the styles had been applied).
 
 On a different server, however, there was some inconsitant behaviour. Specifically, if these options were set to `true`, some styles would or wouldn't get applied.
