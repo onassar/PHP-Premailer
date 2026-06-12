@@ -18,6 +18,18 @@
         protected $_markup = null;
 
         /**
+         * _markupPath
+         *
+         * Path of the temp file holding the markup for the current
+         * {getInlinedMarkup} run; written before the shell command is built
+         * and removed after it runs. (from Darrin)
+         *
+         * @access  protected
+         * @var     null|string (default: null)
+         */
+        protected $_markupPath = null;
+
+        /**
          * _options
          * 
          * @note    Some servers bugged outwhen the following were turned on:
@@ -60,8 +72,8 @@
         protected function _getCLIOptions(): array
         {
             $cliOptions = array();
-            $escapedMarkup = $this->_getEscapedMarkup();
-            $this->_options['markup'] = '"' . ($escapedMarkup) . '"';
+            $markupPath = $this->_markupPath;
+            $this->_options['markup_path'] = escapeshellarg($markupPath);
             $this->_options['with_html_string'] = true;
             $options = $this->_options;
             foreach ($options as $key => $value) {
@@ -94,16 +106,23 @@
         }
 
         /**
-         * _getEscapedMarkup
-         * 
+         * _getMarkupPath
+         *
+         * Writes the markup to a temp file and returns the file's path. The
+         * markup never touches the shell command line this way, so the shell
+         * can't expand (eg. {$15} becoming {5}) or execute anything inside
+         * it, and the 128KB per-argument limit no longer applies. (from
+         * Darrin)
+         *
          * @access  protected
          * @return  string
          */
-        protected function _getEscapedMarkup(): string
+        protected function _getMarkupPath(): string
         {
             $markup = $this->_markup;
-            $escapedMarkup = str_replace('"', '\"', $markup);
-            return $escapedMarkup;
+            $markupPath = tempnam(sys_get_temp_dir(), 'premailer-');
+            file_put_contents($markupPath, $markup);
+            return $markupPath;
         }
 
         /**
@@ -117,8 +136,10 @@
             $scriptPath = dirname(__FILE__) . '/converter.rb';
             $output = array();
             $returnVar = 0;
+            $this->_markupPath = $this->_getMarkupPath();
             $command = ($scriptPath) . ' ' . $this->_getCLIOptionsString();
             $response = exec($command, $output, $returnVar);
+            unlink($this->_markupPath);
             if ($returnVar === 1) {
                 $msg = 'Error';
                 throw new Exception($msg);

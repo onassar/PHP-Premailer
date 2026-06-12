@@ -6,7 +6,7 @@ begin
   require 'getopt/long'
 
   opt = Getopt::Long.getopts(
-    ['--markup', Getopt::REQUIRED],
+    ['--markup_path', Getopt::REQUIRED],
     ['--css_to_attributes', Getopt::BOOLEAN],
     ['--include_link_tags', Getopt::BOOLEAN],
     ['--include_style_tags', Getopt::BOOLEAN],
@@ -20,8 +20,9 @@ begin
     ['--replace_html_entities', Getopt::BOOLEAN],
     ['--with_html_string', Getopt::BOOLEAN]
   )
+  markup = File.read(opt['markup_path'])
   premailer = Premailer.new(
-      opt['markup'].dup,
+      markup,
       :css_to_attributes => opt['css_to_attributes'],
       :include_link_tags => opt['include_link_tags'],
       :include_style_tags => opt['include_style_tags'],
