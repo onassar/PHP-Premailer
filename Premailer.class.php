@@ -43,7 +43,7 @@
             'css_to_attributes'         => true,
             'include_link_tags'         => true,
             'include_style_tags'        => true,
-            'input_encoding'            => 'ASCII-8BIT',
+            'input_encoding'            => 'UTF-8',
             'preserve_reset'            => true,
             'preserve_styles'           => true,
             'remove_classes'            => false,
